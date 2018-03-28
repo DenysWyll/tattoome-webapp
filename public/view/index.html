@@ -40,30 +40,21 @@
         </div>
  
         <!-- LISTA NOSSOS CONTATOS -->
+        
         <div id="lista-estudios">
-            <table class="table table-striped">
- 
-                <tr>
-                    <th>Nome</th>
-                    <th>Endereço</th>
-                    <th>Telefone</th>
-                    <th>Opções</th>
-                </tr>
- 
-                <!-- LOOP PARA CARREGAR TODOS OS CONTATOS EM $scope.estudios -->
-                <tr ng-repeat="estudio in estudios">
-                    <td>{{ estudio.nomeEstudio }}</td>
-                    <td>{{ estudio.emailComercial }}</td>
-                    <td>{{ estudio.telefoneComercial }}</td>
-                    <td>
-                        <button type="button" class="btn btn-default" ng-click="editarEstudio(estudio._id)">Editar</button>
-                        <button type="button" class="btn btn-primary" ng-click="deletarEstudio(estudio._id)">Remover</button>
-                    </td>
-                </tr>
- 
-            </table>
+            <div class="panel panel-default" data-ng-repeat="estudio in estudios">
+                <div class="panel-body">
+                    <div class="col-md-3">
+                        
+                    </div>
+                    <div class="col-md-3">
+                            <p>Nome: {{ estudio.nomeEstudio }}</p>
+                            <p>Endereço: {{ estudio.emailComercial }}</p>
+                            <p>Telefone: {{ estudio.telefoneComercial }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
- 
         <!-- FORMULÁRIO PARA CRIARMOS UM NOVO CONTATO -->
         <div id="estudio-form">
             <hr>
