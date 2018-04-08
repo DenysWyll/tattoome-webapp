@@ -12,6 +12,7 @@ mongoose.connect('mongodb://localhost/tattoome');
 require('./model/Estudio');
 require('./model/Comentario');
 require('./model/Usuario');
+require('./model/Autenticacao');
  
  
 

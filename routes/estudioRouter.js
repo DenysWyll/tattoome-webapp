@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
 var Estudio = mongoose.model('Estudio');
+var Autenticacao = mongoose.model('Autenticacao');
  
 // ROTA BUSCAR 
 router.get('/api/estudios', function(req, res) {
@@ -14,27 +15,63 @@ router.get('/api/estudios', function(req, res) {
         res.json(estudios); 
     });
 });
+
+router.get('/api/estudios/buscaPorLocalidade/:lng/:lat/:dist', function(req, res){
+
+    var coords = [];
+    coords[0] = req.params.lng;
+    coords[1] = req.params.lat;
+
+    Estudio.find({
+        loc: {
+            $near: coords,
+            $maxDistance: req.params.dist
+        }
+    }).limit(30).exec(function(err, locations){
+
+        if(err){
+            res.json(err);
+            console.log(err);
+        }
+
+        res.json(locations);
+    });
+
+});
  
 // ROTA CRIAR
 router.post('/api/estudios', function(req, res) {
+   
     // Cria um contato, as informações são enviadas por uma requisição AJAX pelo Angular
     Estudio.create({
+
         nomeEstudio: req.body.nomeEstudio,
-        emailComercial: req.body.emailComercial,
         enderecoComercial: req.body.enderecoComercial,
-        telefoneComercial: req.body.telefoneComercial
+        telefoneComercial: req.body.telefoneComercial,
+        autenticacao: req.body.autenticacao,
+        loc: [req.body.lng,req.body.lat]
+
     }, function(err, estudio) {
         if (err)
             res.send(err);
-        // Busca novamente todos os contatos após termos inserido um novo registro
-        Estudio.find(function(err, estudios) {
-            if (err)
-                res.send(err)
-            res.json(estudios);
-        });
+                
+        res.json(estudio);
     });
- 
+
 });
+
+router.post('/api/autenticacao', function(req, res){
+    Autenticacao.create({
+        email: req.body.email,
+        senha: req.body.senha
+    }, function(err, auth){
+        if (err)
+            res.send(err);
+    
+        res.json(auth)
+    });
+})
+
  
 // ROTA DELETAR
 router.delete('/api/estudios/:estudio_id', function(req, res) {

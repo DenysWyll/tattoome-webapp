@@ -1,0 +1,120 @@
+<!doctype html>
+ 
+<html ng-app="listaEstudios">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+    <title>Signup Estudio</title>
+ 
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #lista-estudios         { margin-bottom:30px; }
+        form button             { margin-top: 25px; }
+        form .form-group:first-child { padding-left: 0; }
+    </style>
+    
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC_t7BxUdKHv9u0zb_fy7W5o0PyPMa2v_o"></script>
+    <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_t7BxUdKHv9u0zb_fy7W5o0PyPMa2v_o&callback=initMap">
+    </script> -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="../control/estudioController.js"></script>
+
+    <style>
+            /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+            #map {
+              height: 100%;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html, body {
+              height: 100%;
+              margin: 10;
+              padding: 10;
+            }
+    </style>
+ 
+</head>
+<body ng-controller="mainController">
+        
+
+    <!--Navigation bar-->
+    <!-- <div id="nav-placeholder">
+
+    </div>
+        
+    <script>
+        $(function(){
+        $("#nav-placeholder").load("nav.html");
+        });
+    </script> -->
+    <!--end of Navigation bar-->
+    <div id="map"></div>
+    <div class="container">
+ 
+        
+        <!-- TEMPORARIO -->
+        <div id="estudio-form">
+            <form>
+                <div class="container">
+                    <div class="col-md-3"></div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nomeEstudio">Nome do Estudio</label>
+                            <input type="text" class="form-control" id="nomeEstudio" placeholder="Nome" ng-model="formEstudio.nomeEstudio">
+                        </div>
+                        <!-- Dividir em campos diferentes -->
+                        <div class="form-group">
+                            <label for="enderecoEstudio">Endereço Comercial</label>
+                            <input type="text" class="form-control" id="enderecoEstudio" placeholder="Rua das ruas, 123, bairro bonito - SP" ng-model="formEstudio.enderecoComercial">
+                        </div>
+                        
+                        <!-- Temp -->
+                        <div class="form-group">
+                                <button type="submit" class="btn btn-primary" ng-click="getLatLong()">Buscar</button>
+                        </div>
+                        
+                        
+
+                        <div class="form-group">
+                            <label for="telefoneEstudio">Telefone Comercial</label>
+                            <input type="text" class="form-control" id="telefoneEstudio" placeholder="(00) 0000-0000" ng-model="formEstudio.telefoneComercial">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailEstudio">E-mail</label>
+                            <input type="text" class="form-control" id="emailEstudio" placeholder="exemplo@exemplo.com" ng-model="formAuth.email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="senhaEstudio">Senha</label>
+                            <input type="password" class="form-control" id="senhaEstudio" ng-model="formAuth.senha">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confSenhaEstudio">Confirmar Senha</label>
+                            <input type="password" class="form-control" id="confSenhaEstudio" ng-model="formEstudio.confSenha">
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" ng-click="criarEstudio()">Criar conta</button>
+                        </div>
+                       
+                    </div>   
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+ 
+    </div>
+ 
+</body>
+</html>

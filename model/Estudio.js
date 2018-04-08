@@ -3,11 +3,16 @@ var mongoose = require('mongoose');
 
 var EstudioSchema = new mongoose.Schema({
   nomeEstudio: String,
-  emailComercial: String,
   enderecoComercial: String,
-  avaliacao: {type: Number, default: 2.5},
+  likes: Number,
   telefoneComercial: {type: Number, default: 0},
-  comentarios : [{type: mongoose.Schema.Types.ObjectId, ref: 'Comentario'}]
+  comentarios : [{type: mongoose.Schema.Types.ObjectId, ref: 'Comentario'}],
+  autenticacao : {type: mongoose.Schema.Types.ObjectId, ref: 'Autenticacao'},
+  loc: {
+    type: [Number],
+    index: '2d'
+  }
+ 
 });
  
 mongoose.model('Estudio', EstudioSchema);

@@ -1,18 +1,13 @@
-<!-- index.html -->
 <!doctype html>
  
-<!-- ESPECIFICANDO NOSSO MÓDULO ANGULAR listaEstudios -->
 <html ng-app="listaEstudios">
 <head>
-    <!-- META -->
     <meta charset="utf-8">
-    <!-- Otimizar a exibição em dispositivos móveis -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
  
     <title>Lista de Estudios</title>
  
-    <!-- CSS -->
-    <!-- Carregando o bootstrap-->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <style>
         html                    { overflow-y:scroll; }
@@ -22,24 +17,34 @@
         form .form-group:first-child { padding-left: 0; }
     </style>
  
-    <!-- JS -->
-    <!-- Carregando a biblioteca jQuery -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC_t7BxUdKHv9u0zb_fy7W5o0PyPMa2v_o"></script> 
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <!-- Carregando a biblioteca AngularJS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="control/estudioController.js"></script>
+    <script src="../control/estudioController.js"></script>
  
 </head>
-<!-- DEFINE O CONTROLLER E BUSCA TODOS OS CONTATOS -->
 <body ng-controller="mainController">
+
+    <div id="map"></div>
+    
     <div class="container">
- 
-        <!-- CABEÇALHO E TOTAL DE CONTATOS -->
-        <div class="jumbotron text-center">
-            <h1>Lista de Estudios <span class="label label-info">{{ estudios.length }}</span></h1>
+        
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" id="enderecoComercial" placeholder="Digite o endereço de referência" ng-model="formEstudio.enderecoComercial">
         </div>
- 
-        <!-- LISTA NOSSOS CONTATOS -->
+
+        <div class="form-group col-md-3">
+            <button type="submit" class="btn btn-primary" ng-click="getLatLong()">Buscar</button>
+        </div>
+        <div class="form-group col-md-3">
+            <button type="submit" class="btn btn-primary" ng-click="buscarEstudios()">Buscar</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="well">{{ estudios.length }} estúdios próximos a {{ formEstudio.enderecoComercial }} </div>
         
         <div id="lista-estudios">
             <div class="panel panel-default" data-ng-repeat="estudio in estudios">
@@ -49,36 +54,14 @@
                     </div>
                     <div class="col-md-3">
                             <p>Nome: {{ estudio.nomeEstudio }}</p>
-                            <p>Endereço: {{ estudio.emailComercial }}</p>
+                            <p>Endereço: {{ estudio.enderecoComercial }}</p>
                             <p>Telefone: {{ estudio.telefoneComercial }}</p>
+                            <p>Likes: {{ estudio.likes }}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- FORMULÁRIO PARA CRIARMOS UM NOVO CONTATO -->
-        <div id="estudio-form">
-            <hr>
-            <form>
-                <div class="form-group col-md-3">
-                    <label for="nomeEstudio">Nome</label>
-                    <input type="text" class="form-control" id="nomeEstudio" placeholder="Nome" ng-model="formEstudio.nomeEstudio">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="emailEstudio">E-mail</label>
-                    <input type="text" class="form-control" id="emailEstudio" placeholder="exemplo@exemplo.com" ng-model="formEstudio.emailComercial">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="telefoneEstudio">Telefone</label>
-                    <input type="text" class="form-control" id="telefoneEstudio" placeholder="(00) 0000-0000" ng-model="formEstudio.telefoneComercial">
-                </div>
-                <div class="form-group col-md-3">
-                    <!-- createToDo() WILL CREATE NEW TODOS -->
-                    <button type="submit" class="btn btn-primary" ng-click="criarEstudio()">Criar</button>
-                    <button type="submit" class="btn btn-info" ng-click="atualizarEstudio()">Atualizar</button>
-                </div>
-            </form>
-        </div>
- 
+        
     </div>
  
 </body>
