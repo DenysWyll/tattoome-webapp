@@ -1,3 +1,4 @@
+
 var listaEstudios = angular.module('listaEstudios', []);
  
 function mainController($scope, $http, $window, $q) {    
@@ -18,21 +19,25 @@ function mainController($scope, $http, $window, $q) {
     refresh();
 
 
-    $scope.buscarEstudios = function () {
-        //0.1 = 1km??????
-        var dist = 0.1;
-        var deferred = $q.defer();
+    // $scope.buscarEstudios = function () {
+    //     //0.1 = 1km??????
+    //     var dist = 0.1;
+    //     var deferred = $q.defer();
+        
+    //     getLatLong();
 
-        $http.get('/api/estudios/buscaPorLocalidade/'+$scope.formEstudio.lng+'/'+$scope.formEstudio.lat+'/'+dist)
-        .success(function(data) {
-            $scope.estudios = data;
-            $scope.formEstudio = {};
-            console.log("estudios: ", data);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
-    };
+    //     $http.get('/api/estudios/buscaPorLocalidade/'+$scope.formEstudio.lng+'/'+$scope.formEstudio.lat+'/'+dist)
+    //     .success(function(data) {
+    //         $scope.estudios = data;
+    //         $scope.formEstudio = {};
+    //         console.log("estudios: ", data);
+    //     })
+    //     .error(function(data) {
+    //         console.log('Error: ' + data);
+    //     });
+
+           
+    // };
  
     // Quando clicar no botão Criar, envia informações para a API Node
     $scope.criarEstudio = function() {
@@ -92,49 +97,115 @@ function mainController($scope, $http, $window, $q) {
         });
     };
 
+    // $scope.getLatLong = function() {
+    //     var deferred = $q.defer();
+    //     var geo = new google.maps.Geocoder;
+    //     //valor vindo da caixa de texto chamada location
+    //     var address = $scope.formEstudio.enderecoComercial;
+    //     //var user = $('#user').val();
+    //     console.log(address);
+
+    //     geo.geocode({'address':address},function(results, status){
+    //         if (status == google.maps.GeocoderStatus.OK) {
+    //             console.log("Status geocoder OK");
+    //             $scope.formEstudio.lat = results[0].geometry.location.lat();
+    //             $scope.formEstudio.lng = results[0].geometry.location.lng();
+    
+    //             var latlng = new google.maps.LatLng($scope.formEstudio.lat,$scope.formEstudio.lng);
+    
+    //             var mapProp = {
+    //                     center:latlng,
+    //                     zoom:18,
+    //                     mapTypeId:google.maps.MapTypeId.ROADMAP,
+    //                     mapTypeControl: false
+    //             };
+                
+    //             var map=new google.maps.Map(document.getElementById("map"),mapProp);
+    //             var marker = new google.maps.Marker({
+    //                     position: latlng,
+    //                     map: map,
+    //                     title:name
+    //             });
+
+    //             // console.log(lat+" "+lng);
+    //             // $.get( "http://localhost:1346?nome="+user+"&lat="+lat+"&lon="+lng, null); 
+    //             return true;  
+    //         } else {
+    //             alert("O Geocoder falhou: " + status);
+    //         }
+
+    //         deferred.promise.then(function(resolve){
+    //             return resolve;
+    //         }, function(reject){
+    //             alert('Erro: ' + reject);
+    //         });
+
+    //     });
+    
+    // };
+
     $scope.getLatLong = function() {
-        var deferred = $q.defer();
+
         var geo = new google.maps.Geocoder;
-        //valor vindo da caixa de texto chamada location
+    
         var address = $scope.formEstudio.enderecoComercial;
-        //var user = $('#user').val();
         console.log(address);
 
-        geo.geocode({'address':address},function(results, status){
-        if (status == google.maps.GeocoderStatus.OK) {
-            console.log("Status geocoder OK");
-              $scope.formEstudio.lat = results[0].geometry.location.lat();
-              $scope.formEstudio.lng = results[0].geometry.location.lng();
-   
-              var latlng = new google.maps.LatLng($scope.formEstudio.lat,$scope.formEstudio.lng);
-   
-              var mapProp = {
-                    center:latlng,
-                    zoom:18,
-                    mapTypeId:google.maps.MapTypeId.ROADMAP,
-                    mapTypeControl: false
-              };
-               
-              var map=new google.maps.Map(document.getElementById("map"),mapProp);
-              var marker = new google.maps.Marker({
-                    position: latlng,
-                    map: map,
-                    title:name
-              });
-
-             // console.log(lat+" "+lng);
-             // $.get( "http://localhost:1346?nome="+user+"&lat="+lat+"&lon="+lng, null);   
-        } else {
-              alert("O Geocoder falhou: " + status);
-        }
-
-        deferred.promise.then(function(resolve){
-            return resolve;
-        }, function(reject){
-            alert('Erro: ' + reject);
+        return new Promise(function(resolve, reject) {
+    
+            
+    
+            geo.geocode({ 'address': address }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    console.log("Status geocoder OK");
+                    $scope.formEstudio.lat = results[0].geometry.location.lat();
+                    $scope.formEstudio.lng = results[0].geometry.location.lng();
+    
+                    var latlng = new google.maps.LatLng($scope.formEstudio.lat, $scope.formEstudio.lng);
+    
+                    var mapProp = {
+                        center: latlng,
+                        zoom: 18,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        mapTypeControl: false
+                    };
+    
+                    var map = new google.maps.Map(document.getElementById("map"), mapProp);
+                    var marker = new google.maps.Marker({
+                        position: latlng,
+                        map: map,
+                        title: name
+                    });
+                    // say success with marker payload.
+                    resolve(marker);
+    
+                } else {
+                    // Say error with marker payload.
+                    reject(status);
+                }
+            });
         });
-
-    });
-  } 
- 
+    }
+    
+    $scope.buscarEstudios = function () {
+    
+        var dist = 0.1;
+        $scope.getLatLong()
+        .then(function(marker) {
+            // Here you receive marker defer by promise, this code will be execute when "resolve" is call on your getLatLong() method
+            $http.get('/api/estudios/buscaPorLocalidade/'+$scope.formEstudio.lng+'/'+$scope.formEstudio.lat+'/'+dist)
+            .success(function(data) {
+                $scope.estudios = data;
+                $scope.formEstudio = {};
+                console.log("estudios: ", data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    
+        })
+        .catch(function(error) {
+            console.log(error)
+        });
+    };
 }

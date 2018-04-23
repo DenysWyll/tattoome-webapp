@@ -16,6 +16,7 @@ router.get('/api/estudios', function(req, res) {
     });
 });
 
+
 router.get('/api/estudios/buscaPorLocalidade/:lng/:lat/:dist', function(req, res){
 
     var coords = [];
